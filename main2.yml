@@ -1,0 +1,21 @@
+- hosts: all
+  sudo: yes
+  vars:
+        zabbix_server_ip: 192.168.215.175
+  tasks:
+   - name: zabbix_agentd config server ip
+     shell: cat /etc/zabbix/zabbix_agentd.conf | grep '^Server='
+     register: result
+     changed_when: false
+
+   - name: debug result var
+     debug: var=result
+
+   - name: modify zabbix_agentd config
+     lineinfile: >
+      dest=/etc/zabbix/zabbix_agentd.conf
+      state=present
+      backrefs=no
+      regexp='^Server=.*[0-9]$'
+      line={{ result.stdout }},{{ zabbix_server_ip }}
+     when: result.stdout.count(zabbix_server_ip) < 1
