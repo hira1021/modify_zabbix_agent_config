@@ -23,6 +23,6 @@
       dest=/etc/zabbix/zabbix_agentd.conf
       regexp="Server={{ zabbix_server_ip }},"
       replace="Server="
-     when: result.stdout | match("Server={{ zabbix_server_ip}}")
+     when: result.stdout.find("Server=zabbix_server_ip")
      with_items:
       -  zabbix_server_ip
