@@ -1,0 +1,28 @@
+- hosts: all
+  sudo: yes
+  vars:
+        zabbix_server_ip: 192.168.215.175
+  tasks:
+   - name: zabbix_agentd config(server ip)
+     shell: cat /etc/zabbix/zabbix_agentd.conf | grep '^Server='
+     register: result_Server
+     changed_when: false
+
+   - name: debug result var(result_Server)
+     debug: var=result_Server
+
+   - name: zabbix_agentd config(server active ip)
+     shell: cat /etc/zabbix/zabbix_agentd.conf | grep '^ServerActive='
+     register: result_ServerActive
+     changed_when: false
+
+   - name: debug result var(result_ServerActive)
+     debug: var=result_ServerActive
+
+   - name: zabbix_agentd config(hostname)
+     shell: cat /etc/zabbix/zabbix_agentd.conf | grep '^Hostname='
+     register: result_Hostname
+     changed_when: false
+
+   - name: debug result var(result_Hostname)
+     debug: var=result_Hostname
